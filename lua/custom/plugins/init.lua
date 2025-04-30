@@ -2,4 +2,10 @@
 --  I promise not to create any merge conflicts in this directory :)
 --
 -- See the kickstart.nvim README for more information
+
+vim.opt.tabstop = 4
+vim.opt.shiftwidth = 4
+vim.wo.wrap = false
+vim.wo.relativenumber = true
+
 return {}
