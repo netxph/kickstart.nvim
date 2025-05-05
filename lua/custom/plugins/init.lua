@@ -8,4 +8,8 @@ vim.opt.shiftwidth = 4
 vim.wo.wrap = false
 vim.wo.relativenumber = true
 
+vim.diagnostic.config {
+  virtual_text = false,
+}
+
 return {}
