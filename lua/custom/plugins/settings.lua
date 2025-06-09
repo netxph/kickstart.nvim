@@ -8,8 +8,4 @@ vim.o.autoindent = true
 vim.o.softtabstop = 4
 vim.o.cindent = true
 
-vim.diagnostic.config {
-  virtual_text = false,
-}
-
 return {}
