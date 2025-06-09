@@ -8,4 +8,6 @@ vim.o.autoindent = true
 vim.o.softtabstop = 4
 vim.o.cindent = true
 
+vim.keymap.set('n', '<F3>', ':DiagnosticToggle<CR>', { noremap = true, silent = true })
+
 return {}
