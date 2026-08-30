@@ -693,7 +693,20 @@ do
   ---@type table<string, vim.lsp.Config>
   local servers = {
     -- clangd = {},
-    -- gopls = {},
+    gopls = {
+      settings = {
+        gopls = {
+          gofumpt = true,
+          staticcheck = true,
+          usePlaceholders = true,
+          completeUnimported = true,
+          analyses = {
+            unusedparams = true,
+            shadow = true,
+          },
+        },
+      },
+    },
     -- pyright = {},
     -- rust_analyzer = {},
     --
@@ -704,6 +717,7 @@ do
     -- ts_ls = {},
 
     stylua = {}, -- Used to format Lua code
+    omnisharp = {},
 
     -- Special Lua Config, as recommended by neovim help docs
     lua_ls = {
@@ -765,7 +779,13 @@ do
   -- You can press `g?` for help in this menu.
   local ensure_installed = vim.tbl_keys(servers or {})
   vim.list_extend(ensure_installed, {
-    -- You can add other tools here that you want Mason to install
+    -- Go tooling. `gofmt` is included with the Go toolchain.
+    'gofumpt',
+    'goimports',
+    'golangci-lint',
+    'delve',
+    'gotests',
+    'gomodifytags',
   })
 
   require('mason-tool-installer').setup { ensure_installed = ensure_installed }
@@ -789,6 +809,7 @@ do
       -- You can specify filetypes to autoformat on save here:
       local enabled_filetypes = {
         -- lua = true,
+        go = true,
         -- python = true,
       }
       if enabled_filetypes[vim.bo[bufnr].filetype] then
@@ -804,6 +825,7 @@ do
     formatters_by_ft = {
       -- rust = { 'rustfmt' },
       -- Conform can also run multiple formatters sequentially
+      go = { 'goimports', 'gofumpt' },
       -- python = { "isort", "black" },
       --
       -- You can use 'stop_after_first' to run the first available formatter from the list
@@ -910,7 +932,23 @@ do
   vim.pack.add { { src = gh 'nvim-treesitter/nvim-treesitter', version = 'main' } }
 
   -- Ensure basic parsers are installed
-  local parsers = { 'bash', 'c', 'diff', 'html', 'lua', 'luadoc', 'markdown', 'markdown_inline', 'query', 'vim', 'vimdoc' }
+  local parsers = {
+    'bash',
+    'c',
+    'diff',
+    'go',
+    'gomod',
+    'gosum',
+    'gowork',
+    'html',
+    'lua',
+    'luadoc',
+    'markdown',
+    'markdown_inline',
+    'query',
+    'vim',
+    'vimdoc',
+  }
   require('nvim-treesitter').install(parsers)
 
   ---@param buf integer
@@ -972,7 +1010,7 @@ do
   --  Here are some example plugins that I've included in the Kickstart repository.
   --  Uncomment any of the lines below to enable them (you will need to restart nvim).
   --
-  -- require 'kickstart.plugins.debug'
+  require 'kickstart.plugins.debug'
   -- require 'kickstart.plugins.indent_line'
   -- require 'kickstart.plugins.lint'
   -- require 'kickstart.plugins.autopairs'
